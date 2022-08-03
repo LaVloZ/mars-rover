@@ -8,20 +8,40 @@ public enum Direction {
         Direction right() {
             return EAST;
         }
+
+        @Override
+        public Direction left() {
+            return WEST;
+        }
     }, EAST("E") {
         @Override
         Direction right() {
             return SOUTH;
+        }
+
+        @Override
+        public Direction left() {
+            return NORTH;
         }
     }, SOUTH("S") {
         @Override
         Direction right() {
             return WEST;
         }
+
+        @Override
+        public Direction left() {
+            return EAST;
+        }
     }, WEST("W") {
         @Override
         Direction right() {
             return NORTH;
+        }
+
+        @Override
+        public Direction left() {
+            return SOUTH;
         }
     };
 
@@ -43,4 +63,6 @@ public enum Direction {
     String code() {
         return code;
     }
+
+    abstract public Direction left();
 }

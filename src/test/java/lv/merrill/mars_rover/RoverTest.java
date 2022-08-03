@@ -42,42 +42,96 @@ public class RoverTest {
     }
 
     @Nested
-    class TurnRight {
+    class Turn {
+        @Nested
+        class Right {
 
-        @Test
-        void should_turn_to_east_given_one_right_command() {
-            Rover rover = new Rover();
+            @Test
+            void should_turn_to_east_given_one_right_command() {
+                Rover rover = new Rover();
 
-            String finalState = rover.execute("R");
+                String finalState = rover.execute("R");
 
-            assertThat(finalState).isEqualTo("0:0:E");
+                assertThat(finalState).isEqualTo("0:0:E");
+            }
+
+            @Test
+            void should_turn_to_south_given_two_right_commands() {
+                Rover rover = new Rover();
+
+                String finalState = rover.execute("RR");
+
+                assertThat(finalState).isEqualTo("0:0:S");
+            }
+
+            @Test
+            void should_turn_to_west_given_three_right_commands() {
+                Rover rover = new Rover();
+
+                String finalState = rover.execute("RRR");
+
+                assertThat(finalState).isEqualTo("0:0:W");
+            }
+
+            @Test
+            void should_turn_to_north_given_four_right_commands() {
+                Rover rover = new Rover();
+
+                String finalState = rover.execute("RRRR");
+
+                assertThat(finalState).isEqualTo("0:0:N");
+            }
         }
 
-        @Test
-        void should_turn_to_south_given_two_right_commands() {
-            Rover rover = new Rover();
+        @Nested
+        class Left {
+            @Test
+            void should_turn_to_west_given_one_left_command() {
+                Rover rover = new Rover();
 
-            String finalState = rover.execute("RR");
+                String finalState = rover.execute("L");
 
-            assertThat(finalState).isEqualTo("0:0:S");
+                assertThat(finalState).isEqualTo("0:0:W");
+            }
+
+            @Test
+            void should_turn_to_south_given_two_left_commands() {
+                Rover rover = new Rover();
+
+                String finalState = rover.execute("LL");
+
+                assertThat(finalState).isEqualTo("0:0:S");
+            }
+
+            @Test
+            void should_turn_to_east_given_three_left_commands() {
+                Rover rover = new Rover();
+
+                String finalState = rover.execute("LLL");
+
+                assertThat(finalState).isEqualTo("0:0:E");
+            }
+
+            @Test
+            void should_turn_to_east_given_four_left_commands() {
+                Rover rover = new Rover();
+
+                String finalState = rover.execute("LLLL");
+
+                assertThat(finalState).isEqualTo("0:0:N");
+            }
         }
+    }
 
+    @Nested
+    class Move {
         @Test
-        void should_turn_to_west_given_three_right_commands() {
+        void should_move_forward_given_move_commands() {
             Rover rover = new Rover();
 
-            String finalState = rover.execute("RRR");
+            String finalState = rover.execute("MMM");
 
-            assertThat(finalState).isEqualTo("0:0:W");
-        }
-
-        @Test
-        void should_turn_to_north_given_four_right_commands() {
-            Rover rover = new Rover();
-
-            String finalState = rover.execute("RRRR");
-
-            assertThat(finalState).isEqualTo("0:0:N");
+            assertThat(finalState).isEqualTo("0:3:N");
         }
     }
 }
