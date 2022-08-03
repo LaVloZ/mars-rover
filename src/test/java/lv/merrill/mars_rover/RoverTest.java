@@ -199,6 +199,21 @@ public class RoverTest {
                 }
             }
         }
+
+        @ParameterizedTest
+        @CsvSource({
+                "M, 0, 1, O:0:0:N",
+                "MM, 0, 2, O:0:1:N",
+                "MMM, 0, 3, O:0:2:N",
+        })
+        void should_stop_given_an_obstacle(String command, int x, int y, String state) {
+            Grid grid = new Grid(10, obstacle(at(x, y)));
+            Rover rover = new Rover(grid);
+
+            String finalState = rover.execute(command);
+
+            assertThat(finalState).isEqualTo(state);
+        }
     }
 
     private static Coordinate at(final int x, final int y) {
