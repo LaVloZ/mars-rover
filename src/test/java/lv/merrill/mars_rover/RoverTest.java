@@ -2,6 +2,8 @@ package lv.merrill.mars_rover;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.HashSet;
 
@@ -49,79 +51,37 @@ public class RoverTest {
         @Nested
         class Right {
 
-            @Test
-            void should_turn_to_east_given_one_right_command() {
+            @ParameterizedTest
+            @CsvSource({
+                    "R, 0:0:E",
+                    "RR, 0:0:S",
+                    "RRR, 0:0:W",
+                    "RRRR, 0:0:N"
+            })
+            void should_turn_to_east_given_right_command(final String command, final String state) {
                 Rover rover = new Rover();
 
-                String finalState = rover.execute("R");
+                String finalState = rover.execute(command);
 
-                assertThat(finalState).isEqualTo("0:0:E");
-            }
-
-            @Test
-            void should_turn_to_south_given_two_right_commands() {
-                Rover rover = new Rover();
-
-                String finalState = rover.execute("RR");
-
-                assertThat(finalState).isEqualTo("0:0:S");
-            }
-
-            @Test
-            void should_turn_to_west_given_three_right_commands() {
-                Rover rover = new Rover();
-
-                String finalState = rover.execute("RRR");
-
-                assertThat(finalState).isEqualTo("0:0:W");
-            }
-
-            @Test
-            void should_turn_to_north_given_four_right_commands() {
-                Rover rover = new Rover();
-
-                String finalState = rover.execute("RRRR");
-
-                assertThat(finalState).isEqualTo("0:0:N");
+                assertThat(finalState).isEqualTo(state);
             }
         }
 
         @Nested
         class Left {
-            @Test
-            void should_turn_to_west_given_one_left_command() {
+            @ParameterizedTest
+            @CsvSource({
+                    "L, 0:0:W",
+                    "LL, 0:0:S",
+                    "LLL, 0:0:E",
+                    "LLLL, 0:0:N"
+            })
+            void should_turn_to_west_given_left_command(final String command, final String state) {
                 Rover rover = new Rover();
 
-                String finalState = rover.execute("L");
+                String finalState = rover.execute(command);
 
-                assertThat(finalState).isEqualTo("0:0:W");
-            }
-
-            @Test
-            void should_turn_to_south_given_two_left_commands() {
-                Rover rover = new Rover();
-
-                String finalState = rover.execute("LL");
-
-                assertThat(finalState).isEqualTo("0:0:S");
-            }
-
-            @Test
-            void should_turn_to_east_given_three_left_commands() {
-                Rover rover = new Rover();
-
-                String finalState = rover.execute("LLL");
-
-                assertThat(finalState).isEqualTo("0:0:E");
-            }
-
-            @Test
-            void should_turn_to_east_given_four_left_commands() {
-                Rover rover = new Rover();
-
-                String finalState = rover.execute("LLLL");
-
-                assertThat(finalState).isEqualTo("0:0:N");
+                assertThat(finalState).isEqualTo(state);
             }
         }
     }
@@ -170,128 +130,72 @@ public class RoverTest {
             @Nested
             class West {
 
-                @Test
-                void should_wrap_around_to_west() {
+                @ParameterizedTest
+                @CsvSource({
+                        "LM, 9:0:W",
+                        "MLM, 9:1:W",
+                        "MMLM, 9:2:W",
+                })
+                void should_wrap_around_to_west(final String command, final String state) {
                     Rover rover = new Rover(new Grid(10));
 
-                    String finalState = rover.execute("LM");
+                    String finalState = rover.execute(command);
 
-                    assertThat(finalState).isEqualTo("9:0:W");
-                }
-
-                @Test
-                void should_wrap_around_to_west1() {
-                    Rover rover = new Rover(new Grid(10));
-
-                    String finalState = rover.execute("MLM");
-
-                    assertThat(finalState).isEqualTo("9:1:W");
-                }
-
-                @Test
-                void should_wrap_around_to_west2() {
-                    Rover rover = new Rover(new Grid(10));
-
-                    String finalState = rover.execute("MMLM");
-
-                    assertThat(finalState).isEqualTo("9:2:W");
+                    assertThat(finalState).isEqualTo(state);
                 }
             }
 
             @Nested
             class South {
-                @Test
-                void should_wrap_around_to_south() {
+                @ParameterizedTest
+                @CsvSource({
+                        "RRM, 0:9:S",
+                        "RMRM, 1:9:S",
+                        "RMMRM, 2:9:S",
+                })
+                void should_wrap_around_to_south(final String command, final String state) {
 
                     Rover rover = new Rover(new Grid(10));
 
-                    String finalState = rover.execute("RRM");
+                    String finalState = rover.execute(command);
 
-                    assertThat(finalState).isEqualTo("0:9:S");
-                }
-
-                @Test
-                void should_wrap_around_to_south2() {
-                    Rover rover = new Rover(new Grid(10));
-
-                    String finalState = rover.execute("RMRM");
-
-                    assertThat(finalState).isEqualTo("1:9:S");
-                }
-
-                @Test
-                void should_wrap_around_to_south3() {
-                    Rover rover = new Rover(new Grid(10));
-
-                    String finalState = rover.execute("RMMRM");
-
-                    assertThat(finalState).isEqualTo("2:9:S");
+                    assertThat(finalState).isEqualTo(state);
                 }
             }
 
             @Nested
             class North {
-                @Test
-                void should_wrap_around_to_north() {
+                @ParameterizedTest
+                @CsvSource({
+                        "MMMMMMMMMM, 0:0:N",
+                        "RMLMMMMMMMMMM, 1:0:N",
+                        "RMMLMMMMMMMMMM, 2:0:N",
+                })
+                void should_wrap_around_to_north(final String command, final String state) {
 
                     Rover rover = new Rover(new Grid(10));
 
-                    String finalState = rover.execute("MMMMMMMMMM");
+                    String finalState = rover.execute(command);
 
-                    assertThat(finalState).isEqualTo("0:0:N");
-                }
-
-                @Test
-                void should_wrap_around_to_north2() {
-
-                    Rover rover = new Rover(new Grid(10));
-
-                    String finalState = rover.execute("RMLMMMMMMMMMM");
-
-                    assertThat(finalState).isEqualTo("1:0:N");
-                }
-
-                @Test
-                void should_wrap_around_to_north3() {
-
-                    Rover rover = new Rover(new Grid(10));
-
-                    String finalState = rover.execute("RMMLMMMMMMMMMM");
-
-                    assertThat(finalState).isEqualTo("2:0:N");
+                    assertThat(finalState).isEqualTo(state);
                 }
             }
 
             @Nested
             class East {
-                @Test
-                void should_wrap_around_to_east() {
+                @ParameterizedTest
+                @CsvSource({
+                        "RMMMMMMMMMM, 0:0:E",
+                        "MRMMMMMMMMMM, 0:1:E",
+                        "MMRMMMMMMMMMM, 0:2:E",
+                })
+                void should_wrap_around_to_east(final String command, final String state) {
 
                     Rover rover = new Rover(new Grid(10));
 
-                    String finalState = rover.execute("RMMMMMMMMMM");
+                    String finalState = rover.execute(command);
 
-                    assertThat(finalState).isEqualTo("0:0:E");
-                }
-
-                @Test
-                void should_wrap_around_to_east2() {
-
-                    Rover rover = new Rover(new Grid(10));
-
-                    String finalState = rover.execute("MRMMMMMMMMMM");
-
-                    assertThat(finalState).isEqualTo("0:1:E");
-                }
-
-                @Test
-                void should_wrap_around_to_east3() {
-
-                    Rover rover = new Rover(new Grid(10));
-
-                    String finalState = rover.execute("MMRMMMMMMMMMM");
-
-                    assertThat(finalState).isEqualTo("0:2:E");
+                    assertThat(finalState).isEqualTo(state);
                 }
             }
         }
