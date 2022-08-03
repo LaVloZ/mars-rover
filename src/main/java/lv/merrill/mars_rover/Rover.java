@@ -1,5 +1,6 @@
 package lv.merrill.mars_rover;
 
+import static lv.merrill.mars_rover.Direction.EAST;
 import static lv.merrill.mars_rover.Direction.NORTH;
 
 public class Rover {
@@ -12,8 +13,9 @@ public class Rover {
     public String execute(String command) {
         Direction direction = NORTH;
         int yAxis = 0;
+        int xAxis = 0;
         if (isInvalid(command)) {
-            return "0:" + yAxis + ":" + direction.code();
+            return xAxis + ":" + yAxis + ":" + direction.code();
         }
         for (int i = 0; i < command.length(); i++) {
             String singleCommand = String.valueOf(command.charAt(i));
@@ -24,10 +26,15 @@ public class Rover {
                 direction = direction.left();
             }
             if ("M".equals(singleCommand)) {
-                yAxis = command.length();
+                if (NORTH.equals(direction)) {
+                    yAxis++;
+                }
+                if (EAST.equals(direction)) {
+                    xAxis++;
+                }
             }
         }
-        return "0:" + yAxis + ":" + direction.code();
+        return xAxis + ":" + yAxis + ":" + direction.code();
     }
 
     private boolean isInvalid(String command) {
