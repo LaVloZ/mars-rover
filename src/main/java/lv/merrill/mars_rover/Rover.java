@@ -5,6 +5,7 @@ public class Rover {
     }
 
     public String execute(String command) {
+        if(command.isEmpty()) return "0:0:N";
         throw new RuntimeException("Not yet implemeted");
     }
 }

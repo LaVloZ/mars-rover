@@ -17,4 +17,14 @@ public class RoverTest {
             Assertions.assertThat(finalState).isEqualTo("O:9:2:W");
         }
     }
+
+    @Test
+    void should_stay_at_initial_state_given_an_empty_command() {
+        Grid grid = new Grid(10, 10);
+        Rover rover = new Rover(grid);
+
+        String finalState = rover.execute("");
+
+        Assertions.assertThat(finalState).isEqualTo("0:0:N");
+    }
 }
