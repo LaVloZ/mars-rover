@@ -1,30 +1,52 @@
 package lv.merrill.mars_rover;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class RoverTest {
     @Nested
-    public class Acceptance {
+    class Acceptance {
         @Test
-        public void should_be_blocked_at_9_2_W() {
+        void should_be_blocked_at_9_2_W() {
             Grid grid = new Grid(10, 10);
             Rover rover = new Rover(grid);
 
             String finalState = rover.execute("MMMRMMRMRMMMMMR");
 
-            Assertions.assertThat(finalState).isEqualTo("O:9:2:W");
+            assertThat(finalState).isEqualTo("O:9:2:W");
+        }
+    }
+
+    @Nested
+    class CommandInputProcessing {
+
+        @Test
+        void should_stay_at_initial_state_given_an_empty_command() {
+            Rover rover = new Rover();
+
+            String finalState = rover.execute("");
+
+            assertThat(finalState).isEqualTo("0:0:N");
+        }
+
+        @Test
+        void should_stay_at_initial_state_given_a_null_command() {
+            Rover rover = new Rover();
+
+            String finalState = rover.execute(null);
+
+            assertThat(finalState).isEqualTo("0:0:N");
         }
     }
 
     @Test
-    void should_stay_at_initial_state_given_an_empty_command() {
-        Grid grid = new Grid(10, 10);
-        Rover rover = new Rover(grid);
+    void should_turn_to_east_given_one_right_command() {
+        Rover rover = new Rover();
 
-        String finalState = rover.execute("");
+        String finalState = rover.execute("R");
 
-        Assertions.assertThat(finalState).isEqualTo("0:0:N");
+        assertThat(finalState).isEqualTo("0:0:E");
     }
 }
