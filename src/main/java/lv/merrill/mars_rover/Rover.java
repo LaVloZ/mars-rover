@@ -21,20 +21,8 @@ public class Rover {
         return "0:0:" + n;
     }
 
-    private String rightOf(String direction) {
-        if ("N".equals(direction)) {
-            return "E";
-        }
-        if ("E".equals(direction)) {
-            return "S";
-        }
-        if ("S".equals(direction)) {
-            return "W";
-        }
-        if ("W".equals(direction)) {
-            return "N";
-        }
-        throw new RuntimeException("Not yet implemented");
+    private static String rightOf(String direction) {
+        return Direction.of(direction).right().code();
     }
 
     private boolean validate(String command) {
