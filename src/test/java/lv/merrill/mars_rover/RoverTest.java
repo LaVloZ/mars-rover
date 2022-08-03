@@ -3,6 +3,9 @@ package lv.merrill.mars_rover;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
+
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class RoverTest {
@@ -10,7 +13,7 @@ public class RoverTest {
     class Acceptance {
         @Test
         void should_be_blocked_at_9_2_W() {
-            Grid grid = new Grid(10);
+            Grid grid = new Grid(10, obstacle(at(8, 2)));
             Rover rover = new Rover(grid);
 
             String finalState = rover.execute("MMMRMMRMRMMMMMR");
@@ -292,5 +295,13 @@ public class RoverTest {
                 }
             }
         }
+    }
+
+    private static Coordinate at(final int x, final int y) {
+        return new Coordinate(x, y);
+    }
+
+    private static HashSet<Coordinate> obstacle(Coordinate coordinate) {
+        return new HashSet<>(asList(coordinate));
     }
 }

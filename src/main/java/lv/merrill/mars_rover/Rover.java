@@ -4,6 +4,9 @@ import static lv.merrill.mars_rover.Direction.*;
 
 public class Rover {
     private Grid grid;
+    private Direction direction = NORTH;
+
+    private Coordinate coordinate = new Coordinate();
 
     public Rover(Grid grid) {
         this.grid = grid;
@@ -14,11 +17,11 @@ public class Rover {
     }
 
     public String execute(String command) {
-        Direction direction = NORTH;
-        int yAxis = 0;
-        int xAxis = 0;
+        int x = coordinate.x();
+        int y = coordinate.y();
+
         if (isInvalid(command)) {
-            return xAxis + ":" + yAxis + ":" + direction.code();
+            return x + ":" + y + ":" + direction.code();
         }
         for (int i = 0; i < command.length(); i++) {
             String singleCommand = String.valueOf(command.charAt(i));
@@ -30,30 +33,31 @@ public class Rover {
             }
             if ("M".equals(singleCommand)) {
                 if (NORTH.equals(direction)) {
-                    yAxis++;
-                    yAxis %= grid.getWidth();
+                    y++;
+                    y %= grid.getWidth();
                 }
                 if (SOUTH.equals(direction)) {
-                    if (yAxis == 0) {
-                        yAxis = grid.getWidth() - 1; // 0:0:W + M
-                        continue;
+                    if (y == 0) {
+                        y = grid.getWidth() - 1;
+                    } else {
+                        y--;
                     }
-                    yAxis--;
                 }
                 if (EAST.equals(direction)) {
-                    xAxis++;
-                    xAxis %= grid.getWidth();
+                    x++;
+                    x %= grid.getWidth();
                 }
                 if (WEST.equals(direction)) {
-                    if (xAxis == 0) {
-                        xAxis = grid.getWidth() - 1; // 0:0:W + M
-                        continue;
+                    if (x == 0) {
+                        x = grid.getWidth() - 1;
+                    } else {
+                        x--;
                     }
-                    xAxis--;
                 }
             }
+            coordinate = new Coordinate(x, y);
         }
-        return xAxis + ":" + yAxis + ":" + direction.code();
+        return coordinate.x() + ":" + coordinate.y() + ":" + direction.code();
     }
 
     private boolean isInvalid(String command) {
