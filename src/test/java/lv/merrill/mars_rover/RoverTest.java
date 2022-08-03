@@ -202,7 +202,7 @@ public class RoverTest {
 
                     Rover rover = new Rover(new Grid(10));
 
-                    String finalState = rover.execute("LLM");
+                    String finalState = rover.execute("RRM");
 
                     assertThat(finalState).isEqualTo("0:9:S");
                 }
@@ -211,7 +211,7 @@ public class RoverTest {
                 void should_wrap_around_to_south2() {
                     Rover rover = new Rover(new Grid(10));
 
-                    String finalState = rover.execute("LMLM");
+                    String finalState = rover.execute("RMRM");
 
                     assertThat(finalState).isEqualTo("1:9:S");
                 }
@@ -220,7 +220,7 @@ public class RoverTest {
                 void should_wrap_around_to_south3() {
                     Rover rover = new Rover(new Grid(10));
 
-                    String finalState = rover.execute("LMMLM");
+                    String finalState = rover.execute("RMMRM");
 
                     assertThat(finalState).isEqualTo("2:9:S");
                 }
