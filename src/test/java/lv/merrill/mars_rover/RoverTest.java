@@ -10,7 +10,7 @@ public class RoverTest {
     class Acceptance {
         @Test
         void should_be_blocked_at_9_2_W() {
-            Grid grid = new Grid(10, 10);
+            Grid grid = new Grid(10);
             Rover rover = new Rover(grid);
 
             String finalState = rover.execute("MMMRMMRMRMMMMMR");
@@ -126,7 +126,7 @@ public class RoverTest {
     @Nested
     class Move {
         @Test
-        void should_move_forward_given_move_commands() {
+        void should_move_to_north_given_north_direction() {
             Rover rover = new Rover();
 
             String finalState = rover.execute("MMM");
@@ -135,7 +135,7 @@ public class RoverTest {
         }
 
         @Test
-        void should_turn_to_east_and_move_forward_given_RMMM_command() {
+        void should_move_to_east_given_east_direction() {
             Rover rover = new Rover();
 
             String finalState = rover.execute("RMMM");
@@ -147,9 +147,84 @@ public class RoverTest {
         void should_move_to_south_given_south_direction() {
             Rover rover = new Rover();
 
-            String finalState = rover.execute("MMMRRMMM");
+            String finalState = rover.execute("MMMRRMM");
 
-            assertThat(finalState).isEqualTo("0:0:S");
+            assertThat(finalState).isEqualTo("0:1:S");
+        }
+
+        @Test
+        void should_move_to_west_given_west_direction() {
+            Rover rover = new Rover();
+
+            String finalState = rover.execute("RMMMRRMM");
+
+            assertThat(finalState).isEqualTo("1:0:W");
+        }
+
+        @Nested
+        class WrapAround {
+
+            @Nested
+            class West {
+
+                @Test
+                void should_wrap_around_to_west() {
+                    Rover rover = new Rover(new Grid(10));
+
+                    String finalState = rover.execute("LM");
+
+                    assertThat(finalState).isEqualTo("9:0:W");
+                }
+
+                @Test
+                void should_wrap_around_to_west1() {
+                    Rover rover = new Rover(new Grid(10));
+
+                    String finalState = rover.execute("MLM");
+
+                    assertThat(finalState).isEqualTo("9:1:W");
+                }
+
+                @Test
+                void should_wrap_around_to_west2() {
+                    Rover rover = new Rover(new Grid(10));
+
+                    String finalState = rover.execute("MMLM");
+
+                    assertThat(finalState).isEqualTo("9:2:W");
+                }
+            }
+
+            @Nested
+            class South {
+                @Test
+                void should_wrap_around_to_south() {
+
+                    Rover rover = new Rover(new Grid(10));
+
+                    String finalState = rover.execute("LLM");
+
+                    assertThat(finalState).isEqualTo("0:9:S");
+                }
+
+                @Test
+                void should_wrap_around_to_south2() {
+                    Rover rover = new Rover(new Grid(10));
+
+                    String finalState = rover.execute("LMLM");
+
+                    assertThat(finalState).isEqualTo("1:9:S");
+                }
+
+                @Test
+                void should_wrap_around_to_south3() {
+                    Rover rover = new Rover(new Grid(10));
+
+                    String finalState = rover.execute("LMMLM");
+
+                    assertThat(finalState).isEqualTo("2:9:S");
+                }
+            }
         }
     }
 }
