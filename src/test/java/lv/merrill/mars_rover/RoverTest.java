@@ -142,5 +142,14 @@ public class RoverTest {
 
             assertThat(finalState).isEqualTo("3:0:E");
         }
+
+        @Test
+        void should_move_to_south_given_south_direction() {
+            Rover rover = new Rover();
+
+            String finalState = rover.execute("MMMRRMMM");
+
+            assertThat(finalState).isEqualTo("0:0:S");
+        }
     }
 }

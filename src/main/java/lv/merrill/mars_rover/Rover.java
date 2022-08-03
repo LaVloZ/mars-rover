@@ -1,7 +1,6 @@
 package lv.merrill.mars_rover;
 
-import static lv.merrill.mars_rover.Direction.EAST;
-import static lv.merrill.mars_rover.Direction.NORTH;
+import static lv.merrill.mars_rover.Direction.*;
 
 public class Rover {
     public Rover(Grid grid) {
@@ -28,6 +27,9 @@ public class Rover {
             if ("M".equals(singleCommand)) {
                 if (NORTH.equals(direction)) {
                     yAxis++;
+                }
+                if (SOUTH.equals(direction)) {
+                    yAxis--;
                 }
                 if (EAST.equals(direction)) {
                     xAxis++;
