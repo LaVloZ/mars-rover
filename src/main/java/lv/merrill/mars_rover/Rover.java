@@ -42,6 +42,7 @@ public class Rover {
                 }
                 if (EAST.equals(direction)) {
                     xAxis++;
+                    xAxis %= grid.getWidth();
                 }
                 if (WEST.equals(direction)) {
                     if (xAxis == 0) {

@@ -258,6 +258,39 @@ public class RoverTest {
                     assertThat(finalState).isEqualTo("2:0:N");
                 }
             }
+
+            @Nested
+            class East {
+                @Test
+                void should_wrap_around_to_east() {
+
+                    Rover rover = new Rover(new Grid(10));
+
+                    String finalState = rover.execute("RMMMMMMMMMM");
+
+                    assertThat(finalState).isEqualTo("0:0:E");
+                }
+
+                @Test
+                void should_wrap_around_to_east2() {
+
+                    Rover rover = new Rover(new Grid(10));
+
+                    String finalState = rover.execute("MRMMMMMMMMMM");
+
+                    assertThat(finalState).isEqualTo("0:1:E");
+                }
+
+                @Test
+                void should_wrap_around_to_east3() {
+
+                    Rover rover = new Rover(new Grid(10));
+
+                    String finalState = rover.execute("MMRMMMMMMMMMM");
+
+                    assertThat(finalState).isEqualTo("0:2:E");
+                }
+            }
         }
     }
 }
