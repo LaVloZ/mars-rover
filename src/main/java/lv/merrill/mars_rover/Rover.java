@@ -10,18 +10,10 @@ public class Rover {
     }
 
     public Rover() {
+        this(new Grid(10));
     }
 
     public String execute(String command) {
-        if ("LLM".equals(command)) {
-            return "0:9:S"; // 0:0:S + M
-        }
-        if ("LMLM".equals(command)) {
-            return "1:9:S"; // 1:0:S + M
-        }
-        if ("LMMLM".equals(command)) {
-            return "2:9:S"; // 2:0:S + M
-        }
         Direction direction = NORTH;
         int yAxis = 0;
         int xAxis = 0;
@@ -39,11 +31,12 @@ public class Rover {
             if ("M".equals(singleCommand)) {
                 if (NORTH.equals(direction)) {
                     yAxis++;
+                    yAxis %= grid.getWidth();
                 }
                 if (SOUTH.equals(direction)) {
                     if (yAxis == 0) {
                         yAxis = grid.getWidth() - 1; // 0:0:W + M
-                        break;
+                        continue;
                     }
                     yAxis--;
                 }
